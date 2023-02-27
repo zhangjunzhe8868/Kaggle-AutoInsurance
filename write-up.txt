@@ -1,52 +1,8 @@
+For personal auto manager: 
+Segment the potential customers into four groups based on the current risk profiles. 
+Based on the existing data, the different plans can be applied for the potential customers
+For a group of data scientists:
+Three models were built for analysis (classification, regression, and clustering).
 There are four parts to build the classification, regression, and clustering model: load and data cleaning, data exploration and feature engineering, training the model/hyperparameter tuning and model evaluation, and predictive model building.
-
-## load and data cleaning:
-1. 2017 data has 15 features and 60392 records and 2018 data has 10 features and 7464 records.
-2. agecat, credit_score, traffic_index, and claim_office have missing value.
-3. I checked the pattern differences between policy 2017 data and quote 2018 data. They have the same pattern for each feature. 
-It is important because only if the training and prediction set are drawn from the same distribution, then the ML model can be applied. 
-4. There are some categorical data, such as 'gender', 'agecat', 'area', 'veh_age', 'veh_body'. Some of them are ordinal data, such as agecat and veh_age, which can be treated as continuous data.
-5. For the missing value in agecat, used age to predict the missing value. For the missing value in traffic_index, used the mean of each category. For the missing value in the credit score, dropped those off. 
-6. no obvious outlier was found by checking the statistics of each feature.
-7. The total profit of auto insurance is -16 M.
-
-## Binary classification model for finding customers with a low probability of having any claims
-1. Added a new feature called 'have claim' to show if a customer has filed a claim as 1 and no claim as 0.
-2. Checked the contribution of features in 2017 data to the different classes in have_claim by using pie plots and bar plots for categorical data and box plots for continuous data.
-I found the feature of 'credit_score', 'traffic_index', 'veh_value', 'age', 'agecat', 'area', 'veh_age' are related to have_claim. 
-3. Dropped off the irrelative features.
-4. Checked the pattern of the label of 'have claim'. I found the label has an imbalanced issue. The class of had filed a claim only takes 16%.
-5. Checked the correlation between each feature and no multi-correlation was found. 
-6. Split the data as 75% for training and 25% for testing and Scaled the continuous variables.
-7. Used oversampling minority class using random sampling and undersampling majority class using random sampling to deal with the imbalanced data.
-8. I tried random forest and logistic regression to build the binary classification model. 
-9. Logistic regression performs better than random forest after hyperparameter tunning by using grid search.
-10. The logistics regression model has
-	auc:0.706
-	AccuracyScore:0.725
-	Precision:0.825
-	False Alarm Rate:0.323
-11. The prediction result of has_claim of 2018 data was saved in data\external\auto_potential_customers_2018_claim.csv
-
-## Regression model for finding customers with the lowest cost per claim, given that a claim occurs
-1. Added new features called claim_total to show the total amount of all filed claims of one customer and claim_avg_veh_ratio to show the ratio of claimcst0 to veh_value.
-2. Checked the distribution of claimcst0 and claim_avg_veh_ratio. They are very similar. 
-I may define the claim_avg_veh_ratio smaller than 0.081 as the group as the low-cost group, which I can raise the premium. The claim_avg_veh_ratio between 0.081 to 0.209 is the middle-cost group, which I need to consider the strategy. But the claim_avg_veh_ratio larger than 0.209 is the high-cost group, which I can reject to provide the auto insurance.
-3. Moreover, The response variable 'claimcst0' is highly right-skewed and is positive across all observations. This can be problematic when constructing a multiple regression model using ordinary least squares. 
-I decided to use gamma regression models because gamma regression allows interpretation of the results on the original scale and does not require normally distributed errors and/or constant variance.
-4. Checked the contribution of features in training data to the different classes in claimcst0.
-5. Checked the correlation between the continuous feature with 'clamincst0'.
-6. Dropped off the irrelative features.
-7. Split the data as 75% for training and 25% for testing and Scaled the continuous variables.
-8. But the gamma regression didn't perform well (R2 is 0.24 and rmse is 0.833).
-9. I tried the random forest regression (R2 is 0.48 and rmse is 0.69).
-10. The prediction result of the lowest cost per claim of 2018 data was saved in data\external\auto_potential_customers_2018_lowcost.csv
-
-## divide the customer into the different groups by the risk profile
-1. Added new features called 'have claim' and 'veh_safe' to show the lower cost of a claim by car type.
-2. Scaled the continuous variables. 
-3. Selected the records only with at least one claim.
-4. Used inertia and silhouette_score to compute the K in K-means, K is 3.
-5. Then, there are four segments for the customers (3 classes for the customer that has at one claim, and 1 class for the customer who never filed a claim).
-6. I also used the PCA to evaluate the result by clustering and the result is reasonable.
-7. The label result of 2018 data was saved in data\external\auto_potential_customers_2018_cluster.csv
+Next step: model implementation (big data or on-time) and model monitoring (model retrain)
+These models are the starting point but need more models to work together, such as model can investigate the reason of one-time high cost payoff. 
