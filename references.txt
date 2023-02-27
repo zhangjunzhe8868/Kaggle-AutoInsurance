@@ -1,0 +1,3 @@
+1. https://www.hyperon.io/blog/why-insurance-companies-need-customer-segmentation#:~:text=Customer%20segmentation%20is%20a%20proven,increases%20overall%20customer%20lifetime%20value.
+2.Guelman, Leo. "Gradient boosting trees for auto insurance loss cost modeling and prediction." Expert Systems with Applications 39.3 (2012): 3659-3667.
+3.Yeo, Ai Cheo, et al. "Clustering technique for risk classification and prediction of claim costs in the automobile insurance industry." Intelligent Systems in Accounting, Finance & Management 10.1 (2001): 39-50.
